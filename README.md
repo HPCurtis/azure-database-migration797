@@ -7,4 +7,4 @@ Such tools provide end users ease and advanced tooling and is a majot point of t
 The first step in this project example of a database migration from on site sustems to using Azure colud computing options was to first set up virtual machine. The value of using the virtual machine is thus 
 A virtual machine in cloud computing is a software-based emulation of a physical computer, allowing multiple operating systems to run on a single physical server. It provides users with the flexibility to deploy and manage various computing environments within the cloud infrastructure. Virtual machines enable efficient resource utilization, scalability, and isolation, allowing businesses to optimize their computing resources and streamline their operations in the cloud.
 
-![hey](azure_porject_diagrame.jpeg)
+![Azure Project Diagram](https://github.com/HPCurtis/azure-database-migration797/assets/136170998/7b809b53-335a-465c-894d-e08ef6be291e)
