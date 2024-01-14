@@ -23,7 +23,22 @@ The production database can now be created. This was achieved by using the downl
 The next step in Azure database migration is to generate a SQL database. To reiterate Azure services make this simple and intuitive. Using the Azure portal a Azure SQL database can be created by selecting the SQL database resource from the create a resource from the home portal. Throught this process you have to generate a linked SQL server when doing this it is essential that SQL login credentials are selected and firewall restrictions are removed by adding the vm IP address.
 
 ## Install Azure data studio
-In order to comple a database migration [Azure data studio](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio?tabs=win-install%2Cwin-user-install%2Credhat-install%2Cwindows-uninstall%2Credhat-uninstall) must be dowlaoded and installed. By dowing this a server connection can be created between azure data studio and the SQL Server hosted on the VM. In addtion to connecting to the SQL server on Azure VM
+In order to comple a database migration [Azure data studio](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio?tabs=win-install%2Cwin-user-install%2Credhat-install%2Cwindows-uninstall%2Credhat-uninstall) must be dowlaoded and installed. By dowing this a server connection can be created between azure data studio and the SQL Server hosted on the VM. In addition to connecting to the SQL server running on the Azure VM a connection must also be made to SQL server database generated.
+
+
+# Database backup and restore.
+
+With any Database migration it is always useful to genrate backup copies of the database/'s you are working with. The database can be backed to a .bak file using SSMS. This is simple achieved by selecting the Adventure works database stored on the Azure VM and right clicking and selcting the Back up option. Now uisng the Backup GUI dialog is brought up full and to disk option is selected and using the backup folder defualt to store the .bak file. With these options succesfully specified Ok is then selected. If succesful you will recieve a succesful backup return message.
+
+
+## Resotore database on development enviroment
+
+When doing anything is software and tech devlopment/test envirmoments are incredible usefull for product development without disturning production enviroments.
+
+As such the next step of the Database migration process engaged with here was to generate a development enviroment this is achieved by repeating tbe steps in [ Production enviroment set up](#production-enviroment-set-up)
+
+# Microsoft Entra directort integration
+
 
 
 ![Azure Project Diagram](https://github.com/HPCurtis/azure-database-migration797/assets/136170998/7b809b53-335a-465c-894d-e08ef6be291e)
