@@ -1,7 +1,7 @@
 # Azure data base migration
 The following README is a description of an implementaion of a database migration using the various tools and sotwares provided by the Microsoft [Azure cloud computing services](https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=8e0e8db5-b713-4e91-98e6-470fed0aa4c2&response_type=code%20id_token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3DjZEd0hq1c0oKq_PnKRqosFjsPt1YLhnhbcLnVWsmz_wuJhb4z6iRBjsenupkL0o2scLAQMHEbpfhlY_R23zsvheNvZWuKKWEFPRnC_kQDtWKc2PVaVIYexSeyWNrE-VNjaT2oEQQH_K2HtMQdX__-ySAInJpHBKHTM-ypIkDDVUtbQzuVng2lMq7wfhB7SeNJgbI0h93fLphQG5oXQtKS3LPvb7luxrEJw2yy2PIiPvI8AmpaV4IFYnSZOOyRJdrcB9XIBGDp4jJ5ZGfyxcSO9CPT786hzj8xOZLnXvNIgSSM2uPS2dksDPHyGAxjjFkX862Ys6dWwPIh_T7LXkHJiUgi9mo9lS8YrnoKKULgpJST9gMqmde2So0xZkaHuuNb_cpeHaARt0ZLyLy_vIh2jFzsYCjUUVALc-hiRI0-LrAJuqOu78xc9BSQwRt_9GEpS_96vJckfRnTwolCFHlDcAd-zoR177TUOOVYEcCZCY&response_mode=form_post&nonce=638407554444943112.NTBiNmM4MmYtNWFiMS00MzAwLWI2MTEtNjM5MDExMTI2NGFjZWY0ZTE0YmItMDAxMy00MjUzLTk5NTItY2RkZWZlZDg1N2Jl&redirect_uri=https%3A%2F%2Fsignup.azure.com%2Fapi%2Fuser%2Flogin&max_age=86400&post_logout_redirect_uri=https%3A%2F%2Fsignup.azure.com%2Fsignup%3Foffer%3Dms-azr-0044p%26appId%3D102%26ref%3D%26redirectURL%3Dhttps%3A%2F%2Fazure.microsoft.com%2Fget-started%2Fwelcome-to-azure%2F%26l%3Den-us%26srcurl%3Dhttps%3A%2F%2Fazure.microsoft.com%2Ffree&x-client-SKU=ID_NET472&x-client-ver=6.34.0.0)
 
-Such tools provide end users ease of use of advanced tooling and is a major focal point of the following description.
+Such tools provide end users ease of use of advanced tooling and is a major focal point of the following description. For a visual representation of the following description view the [Schema](#database-migration-diagram-schema) below.
 
 # Table of Contents
 - [Azure data base migration](#azure-data-base-migration)
@@ -34,13 +34,14 @@ Such tools provide end users ease of use of advanced tooling and is a major foca
 # Production enviroment set up
 
 ## Provison virtual machine (vm)
-The first step in this project of a database migration from an on site systems to using Azure cloud computing services was to first set up a vm.
 
- A vm in cloud computing is a software-based emulation of a physical computer, allowing  operating systems to run on a server. Providing the end users with the flexibility to deploy and manage various computing environments within the cloud. 
- 
- To achieve this using Azure cloud computing resources is simple upon creation of an Azure cloud computing account and signing into the [Azure portal](https://signup.azure.com/). I simple searched through the azure resources using thecreate resource option on the portals homepage and find the virtual machine option. 
+The first step in this project, involved the migration of a database from an on-site system to using Azure cloud computing services, was to set up a virtual machine (VM).
 
-Once selected all I selected the resource group the vm is to be attached to and the select a logical name for the vm. Following this I had to select a region where the vm would be hosted. Generally it is best practice to select the region option closest to my gepgraphcial location to minimise latencies. Which for me is the UK South option and therefore the one that was selected for this database migration. After this I selected an image for the vm which for this project was the windows 11 pro option. Then I selected the size of image which for this database migration was the standard size option. Following on from this all that is required is the specification of user name and password of the VM, followed by the network ports which were set using RDP as I connected to virtual machine using a Ubuntu OS and the [Remmima](https://remmina.org/how-to-install-remmina/) remote desktop client.
+In cloud computing, a VM is a software-based emulation of a physical computer, allowing operating systems to run on a server. This provides end-users with the flexibility to deploy and manage various computing environments within the cloud.
+
+To achieve this using Azure cloud computing resources, it is simple upon the creation of an Azure cloud computing account and signing into the Azure portal. I simply searched through the Azure resources using the "create resource" option on the portal's homepage and found the virtual machine option.
+
+Once selected, I specified the resource group the VM is to be attached to and selected a logical name for the VM. Following this, I had to select a region where the VM would be hosted. Generally, it is best practice to select the region option closest to my geographical location to minimize latencies, which, for me, is the UK South option and therefore the one that was selected for this database migration. After this, I selected an image for the VM, which, for this project, was the Windows 11 Pro option. Then, I selected the size of the image, which, for this database migration, was the standard size option. Following on from this, all that is required is the specification of the username and password of the VM, followed by the network ports, which were set using RDP as I connected to the virtual machine using an Ubuntu OS and the Remmina remote desktop client.
 
 ## Download and install SQL Server and Microsoft SQL Server Management Studio (SSMS)
 
@@ -76,7 +77,6 @@ With correct schema migration the actual data can be migrated appropriately. In 
 ## Validate migration
 With any migration a visual/programmtic assessment of the migration is neccesary. This is achieved by sanity checks such as comparing the number of tables in each database.
 
-
 # Database backup and restore.
 
 With any Database migration it is always useful to generate backup copies of the database/'s you are working with. The database can be backed to a .bak file using SSMS. This is simple achieved by selecting the Adventure works database stored on the Azure VM and right clicking and selecting the Back up option. Now uisng the Backup GUI dialog boxes a full restore and the to disk option are selected and using the backup folder default to store the .bak file. With these options succesfully specified Ok is then selected. SSMS makes you aware of of succesful backup of the database choosen.
@@ -96,7 +96,7 @@ To use this funrtionaltiy within this database nmigration I xconducted a simple 
 
 ``` DROP TABLE dbo.AWBuildVersion; ```
 
-This represetn the loss of huge and amount of critical data. but as shown below using Azure it possible to revoery this data.
+This represents the loss of huge amount of critical data. but as shown below using Azure it possible to recover this data.
 
 
 ## Restoring the data using Azure SQL database backup
