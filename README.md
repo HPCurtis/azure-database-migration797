@@ -95,6 +95,8 @@ As such the next step of the Database migration process engaged with was to gene
 
 ## Automate Backups
 
+Using the back up vm I created a automated backups. This was achieved using SSMS and connecting to the Development databses on the devleopment vm using the  SQL Server Agent node within the devlopemnt databse. From here I had to geneat SQL server credentials. Now under mangement it was possible to create a maintentance plan with maintenance plan wizard.   A name was given to plan. The schedule was set to weekly with a full databse back up selected also. Now Back Up Database Task  was selected URL as backup location. The Destiantoion i then set with the SQL credentials in drop down option. Next the provisoned storaged container was selected with the backup file set to bak. nOw can clyle to final page of the Mingenca eplan wizard to creat the plan. Within SSMS the maintenance plan is visble and thus working.
+
 # Disaster recovery simulation
 Data loss is a real world threat to Businesses and industries. Within industry testing and simulation of such issues arising is standard practice. However, Azure Cloud comptuing offers recovery functionality for its SQL databases that make data recovery simple.
 
