@@ -1,7 +1,7 @@
 # Azure data base migration
 The following README is a description of an implementaion of a database migration using the various tools and sotwares provided by the Microsoft [Azure cloud computing services](https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize?client_id=8e0e8db5-b713-4e91-98e6-470fed0aa4c2&response_type=code%20id_token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3DjZEd0hq1c0oKq_PnKRqosFjsPt1YLhnhbcLnVWsmz_wuJhb4z6iRBjsenupkL0o2scLAQMHEbpfhlY_R23zsvheNvZWuKKWEFPRnC_kQDtWKc2PVaVIYexSeyWNrE-VNjaT2oEQQH_K2HtMQdX__-ySAInJpHBKHTM-ypIkDDVUtbQzuVng2lMq7wfhB7SeNJgbI0h93fLphQG5oXQtKS3LPvb7luxrEJw2yy2PIiPvI8AmpaV4IFYnSZOOyRJdrcB9XIBGDp4jJ5ZGfyxcSO9CPT786hzj8xOZLnXvNIgSSM2uPS2dksDPHyGAxjjFkX862Ys6dWwPIh_T7LXkHJiUgi9mo9lS8YrnoKKULgpJST9gMqmde2So0xZkaHuuNb_cpeHaARt0ZLyLy_vIh2jFzsYCjUUVALc-hiRI0-LrAJuqOu78xc9BSQwRt_9GEpS_96vJckfRnTwolCFHlDcAd-zoR177TUOOVYEcCZCY&response_mode=form_post&nonce=638407554444943112.NTBiNmM4MmYtNWFiMS00MzAwLWI2MTEtNjM5MDExMTI2NGFjZWY0ZTE0YmItMDAxMy00MjUzLTk5NTItY2RkZWZlZDg1N2Jl&redirect_uri=https%3A%2F%2Fsignup.azure.com%2Fapi%2Fuser%2Flogin&max_age=86400&post_logout_redirect_uri=https%3A%2F%2Fsignup.azure.com%2Fsignup%3Foffer%3Dms-azr-0044p%26appId%3D102%26ref%3D%26redirectURL%3Dhttps%3A%2F%2Fazure.microsoft.com%2Fget-started%2Fwelcome-to-azure%2F%26l%3Den-us%26srcurl%3Dhttps%3A%2F%2Fazure.microsoft.com%2Ffree&x-client-SKU=ID_NET472&x-client-ver=6.34.0.0)
 
-Such tools provide end users ease of use of advanced tooling and is a major focal point of the following description. For a visual representation of the following description view the [Schema](#database-migration-diagram-schema) below.
+Such tools provide end users ease of use with advanced tooling and is a focal point of the following description. For a visual representation of the following description view the [Schema](#database-migration-diagram-schema) below.
 
 # Table of Contents
 - [Azure data base migration](#azure-data-base-migration)
@@ -28,6 +28,7 @@ Such tools provide end users ease of use of advanced tooling and is a major foca
     - [Test Failover/tailack](#test-failovertailack)
 - [Microsoft Entra directory integration](#microsoft-entra-directory-integration)
   - [Create Azure SQL Microsoft entra Admin account](#create-azure-sql-microsoft-entra-admin-account)
+  - [Create DB Reader user](#create-db-reader-user)
 - [Database migration diagram schema](#database-migration-diagram-schema)
 
 
@@ -121,9 +122,17 @@ To do this I used the Azure SQL server from Azure portal and selcted the Failove
 
 
 # Microsoft Entra directory integration
-The following step decription is about using the availible tooling of Microsoft Azure to increase the security around the databases we have migrated on the Azure SQL database services. Specifically Microsoft Entra ID.
+The following step decription is about using the availible tooling of Microsoft Azure to increase the security around the databases we have migrated on the Azure SQL database services. Using Microsoft Entra ID.
 
 ## Create Azure SQL Microsoft entra Admin account
+Using the Microsoft Azure portal I navigated to my replica SQL server, whilst first noting we were in the correct geo-region (South UK). Under the security options I selected Microsoft entra id. This sennt me to portal page that allowed for set admin functionality. Using this option going from Users and selecting myself among them. Setting me as the server admin. From this I tested the Entra credentials by using Azure data studio to connect to the server.
+
+## Create DB Reader user
+
+The final step of the porject was to generate DB reader User. To do this i  navigated to the Azure portal and navigate to the Microsoft Entra ID homepage and created a new user (with a suggestive name). The new user must be given a password. With a connection to SQl database from [step above](#create-azure-sql-microsoft-entra-admin-account) using microsfot entra credentials. Then using SQL Query to grant the db_datareader user role.
+
+The read user connection needs to be checked. This is achieved by editing the connectiomn to SQL Server opening Connection page and under Account section  select to Add account. Following the set up process  i connected to server using this new account to observe the Read only access behaviour of this account. 
+
 
 - [Table of Contents](#table-of-contents)
 
