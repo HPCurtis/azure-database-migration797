@@ -23,7 +23,7 @@ Such tools provide end users ease of use  and [highly documented](https://learn.
   - [Restore database on development enviroment](#restore-database-on-development-enviroment)
   - [Automate Backups](#automate-backups)
 - [Disaster recovery simulation](#disaster-recovery-simulation)
-  - [Mimic data loss in prodcution enviroment](#mimic-data-loss-in-prodcution-enviroment)
+  - [Mimic data loss in production enviroment](#mimic-data-loss-in-production-enviroment)
   - [Restoring the data using Azure SQL database backup](#restoring-the-data-using-azure-sql-database-backup)
 - [Geo replication](#geo-replication)
   - [Set up Geo-replication for Azure SQL database.](#set-up-geo-replication-for-azure-sql-database)
@@ -79,7 +79,7 @@ With correct schema migration the actual data can be migrated appropriately. In 
 
 
 ## Validate migration
-With any migration a visual/programmtic assessment of the migration is neccesary. I achieved this by codnucting some sanity checks such as comparing the number of tables in each database and if the there any loss of rows of columns within tables.
+With any migration a visual/programmtic assessment of the migration is neccesary. I achieved this by conducting some sanity checks such as comparing the number of tables in each database and if the there any loss of rows of columns within tables.
 
 # Database backup and restore.
 
@@ -93,16 +93,16 @@ After creating a disk based backup of the production databas eon the prodcution 
 
 When doing anything in software and tech devlopment/test enviroments are incredibly useful for product development without disturbing production enviroments.
 
-As such the next step of the Database migration process engaged with was to generate a development enviroment. This was achieved by repeating the steps in [ Production enviroment set up](#production-enviroment-set-up). Once the the devlopment vm was created and had SQL server and SSMS installed i was able to prodcue the development database. This was achieved dowloading the .bak from the Azure stroage container from there I connected t o the develpment database and used the back up funtionaltiy of SSMS desribed [above](#back-up-on-premise-database)
+As such the next step of the Database migration process engaged with was to generate a development enviroment. This was achieved by repeating the steps in [ Production enviroment set up](#production-enviroment-set-up). Once the the devlopment vm was created and had SQL server and SSMS installed i was able to prodcue the development database. This was achieved dowloading the .bak from the Azure stroage container from there I connected t o the develpment database and used the back up functionality of SSMS desribed [above](#back-up-on-premise-database)
 
 ## Automate Backups
 
 Using the back up vm I created a automated backups. This was achieved using SSMS and connecting to the Development databses on the devleopment vm using the  SQL Server Agent node within the devlopemnt databse. From here I had to geneat SQL server credentials. Now under mangement it was possible to create a maintentance plan with maintenance plan wizard.   A name was given to plan. The schedule was set to weekly with a full databse back up selected also. Now Back Up Database Task  was selected URL as backup location. The Destiantoion i then set with the SQL credentials in drop down option. Next the provisoned storaged container was selected with the backup file set to bak. nOw can clyle to final page of the Mingenca eplan wizard to creat the plan. Within SSMS the maintenance plan is visble and thus working.
 
 # Disaster recovery simulation
-Data loss is a real world threat to Businesses and industries. Within industry testing and simulation of such issues arising is standard practice. However, Azure Cloud comptuing offers recovery functionality for its SQL databases that make data recovery simple.
+Data loss is a real world threat to Businesses and industries. Within industry testing and simulation of such issues arising is standard practice. However, Azure Cloud computing offers recovery functionality for its SQL databases that make data recovery simple.
 
-## Mimic data loss in prodcution enviroment
+## Mimic data loss in production enviroment
 To use this functionaltiy within this database nmigration I conducted a simple form of data loss simulation. Specifically in this project the loss of whole table of data was caused within the production database. This was achieved through the use of connection to prodcution database and running the SQL query of
 
 ``` DROP TABLE dbo.AWBuildVersion; ```
@@ -111,16 +111,16 @@ This represents the loss of huge amount of critical data. But, as shown below us
 
 ## Restoring the data using Azure SQL database backup
 
-Recovery of the data was achieved by using azure portal and selecting the Azure Sql database resource. From the databses homepage I selected the *Restore option. This opens the Restore database window. Where I selcted to restore the dabase to two hours before as restore point. Finally a name has to be given to the the database which for this project was adventureworksreplica. Once the databse has been providoned you can see it in the avaible resources on the Azure home portal. To assess if the restoration has worked I used Azure data studio to conect to the database and check if the dbo.AWBuildVersion table was present and thuis restored. The replcia databse is now acts as the production database and thus the prodcution data base is deleted to avoid confusion when using the Azure portal.
+Recovery of the data was achieved by using azure portal and selecting the Azure Sql database resource. From the databases homepage I selected the *Restore* option. This opens the Restore database window. Where I selcted to restore the dabase to two hours before as restore point. Finally a name has to be given to the the database which for this project was adventureworksreplica. Once the databse has been providoned you can see it in the avaible resources on the Azure home portal. To assess if the restoration has worked I used Azure data studio to conect to the database and check if the dbo.AWBuildVersion table was present and thuis restored. The replcia databse is now acts as the production database and thus the prodcution data base is deleted to avoid confusion when using the Azure portal.
 
 
 # Geo replication
 Geo Replication with Azure SQL databases is a powerful disaster recovery feature. It works by simple replicating the determined data base in a seperate geographical location. Protecting from data loss in the primary geographical location.
 
 ## Set up Geo-replication for Azure SQL database.
-Acheiving this with Azure services is fairly simple. I achieved it for this databse migration after genearting the restored SQL database. Selecting the the restored SQL database from the Azure portal. I selected the Replicas options under the data managment section. This takes you to another GUI with the options to generate a new SQL Server Where I specified the name and location of this new. Server for Geo Replication a different Region to the Intial Primary server must be selected. In my case i chose East US. 
+Acheiving this with Azure services is fairly simple. I achieved it for this databse migration after genearting the restored SQL database. Selecting the the restored SQL database from the Azure portal. I selected the Replicas options under the data managment section. This takes you to another GUI with the options to generate a new SQL Server where I specified the name and location of the new server for Geo Replication  to a different *Region* to the Initial Primary server must be selected. In my case I chose East US. 
 
-Again SQL Authetication has to set up. Ok all this using the OK button and then select review + create and then create to generate the replication. Uisng the resource page succesful replcation can be checked by reviewing is the replcation has an associated primary database.
+Again SQL Authetication has to set up.Then I selected review + create and then create to generate the replication. Using the resource page successful replication can be checked by reviewing if the replication has an associated primary database.
 
 ## Failover/tailback Testing
 When generating a geo replicate it is important to test the system using a failover (awtiching the workload from primary region to the secondary region) and then a tailback (the reversion from the workload back to primary region after succesful failover)
@@ -128,7 +128,6 @@ When generating a geo replicate it is important to test the system using a failo
 
 ### Test Failover/tailack
 To do this I used the Azure SQL server from Azure portal and selcted the Failover gropus from the data manamgemnt options and add group funcitonality in failover groups page. The failover group was then named and and secondary server (Replica sever generated above) Set in the East Us choosen and finally generated by using Create. From the Portal I navigated to the replica server and access the failover group page and then select Failover options. If succesufl the primary and secondary databse labels should be switched. The tailback was schieved by simple selecting failover option again and noting the switch in the databases primary and secondary status.
-
 
 # Microsoft Entra directory integration
 The following step decription is about using the availible tooling of Microsoft Azure to increase the security around the databases we have migrated on the Azure SQL database services. Using Microsoft Entra ID.
