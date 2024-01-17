@@ -18,6 +18,7 @@ Such tools provide end users ease of use  and [highly documented](https://learn.
   - [Data Migration](#data-migration)
   - [Validate migration](#validate-migration)
 - [Database backup and restore.](#database-backup-and-restore)
+  - [Back up on-premise database](#back-up-on-premise-database)
   - [Upload back up to Blob storage](#upload-back-up-to-blob-storage)
   - [Restore database on development enviroment](#restore-database-on-development-enviroment)
   - [Automate Backups](#automate-backups)
@@ -78,11 +79,12 @@ With correct schema migration the actual data can be migrated appropriately. In 
 
 
 ## Validate migration
-With any migration a visual/programmtic assessment of the migration is neccesary. This is achieved by sanity checks such as comparing the number of tables in each database and if the there any loss of rows of columns within tables.
+With any migration a visual/programmtic assessment of the migration is neccesary. I achieved this by codnucting some sanity checks such as comparing the number of tables in each database and if the there any loss of rows of columns within tables.
 
 # Database backup and restore.
 
-With any Database migration it is always useful to generate backup copies of the database/'s you are working with. The database can be backed to a .bak file using SSMS. This was achieved by selecting the Adventure works database stored on the Azure VM (on site) and right clicking and selecting the Back up option. Now using the Backup GUI dialog boxes a full restore was selected and the to disk option also selected and using the backup folder default to store the .bak file within the on site system. With these options succesfully specified Ok is then selected. SSMS made me aware of succesful backup of the database choosen.
+## Back up on-premise database
+With any Database migration it is always useful to generate backup copies of the database/'s you are working with. The database can be backed to a .bak file using SSMS. This was achieved by selecting the Adventure works database stored on the Azure vm (on site) and right clicking and selecting the Back up option. Now using the Backup GUI dialog boxes a full restore was selected and the to disk option also selected and using the backup folder default to store the .bak file within the on site system. With these options succesfully specified Ok is then selected. SSMS made me aware of succesful backup of the database choosen.
 
 ## Upload back up to Blob storage
 After creating a disk based backup of the production databas eon the prodcution vm, it was also essetnial to take adavantage of Azure cloud based [blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview). This is a Azure stoarge type that allows for storge of large amount of data. To use blob storage in this project I had to generate and Azure storage account using the Azure portal search bar.Directing me to the Storage accounts homepage. Follwing from here I simple had to Use *Create*. This led to selecting the linked subcrition and resource group. Then the storage account was named and given region (Uk South). From the storage account page I was able to genrate a container. Then from the container page I added a blob and then uploaded the AdeventureWorks.bak file from the production vm disk.
@@ -91,7 +93,7 @@ After creating a disk based backup of the production databas eon the prodcution 
 
 When doing anything in software and tech devlopment/test enviroments are incredibly useful for product development without disturbing production enviroments.
 
-As such the next step of the Database migration process engaged with was to generate a development enviroment. This was achieved by repeating the steps in [ Production enviroment set up](#production-enviroment-set-up)
+As such the next step of the Database migration process engaged with was to generate a development enviroment. This was achieved by repeating the steps in [ Production enviroment set up](#production-enviroment-set-up). Once the the devlopment vm was created and had SQL server and SSMS installed i was able to prodcue the development database. This was achieved dowloading the .bak from the Azure stroage container from there I connected t o the develpment database and used the back up funtionaltiy of SSMS desribed [above](#back-up-on-premise-database)
 
 ## Automate Backups
 
