@@ -279,21 +279,9 @@ I tried researching the error but was unable to find anything. As I gain more ex
 #### Solution
 I decided to redeploy the restored database and eventually it succeded:
 
-![m5-2 restore database success](https://github.com/LHMak/azure-database-migration873/assets/147920042/7f83ea9b-4535-407f-9db7-e3135edda2c2)
-
-_Image showing successful deployment of the restored database_
-
 Once the restored production database was deployed, I connected to it in ADS on the production VM. This meant there were two connections to the Azure SQL server in ADS: one for the original, now corrupted database and the other for the restored database from before the data loss:
 
-<img width="466" alt="m5-2 connect to restored database" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/34bd64d3-1511-4710-b96c-0790e3f00de4">
-
-_Image showing me connecting to the restored Azure SQL database from before the data loss incident_
-
 I tested whether the restoration was successful by running a query to return everything in the Person.Address table again. I could see that in the top 100 rows, the AddressLine2 column contained null values instead of ‘not_a_real_address.’
-
-<img width="926" alt="m5-2 restore database query" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/ebb47f52-e9e4-48e8-bb59-71a220a381ae">
-
-_Image showing the results of the query on the Person.Address table in the restored database. The AddressLine2 column has been returned to its original state from before the data loss incident_
 
 In order to fully recover from the data corruption, I deleted the original database, retaining just the restored database. Once I deleted the original database which suffered the data loss, I could see that the database resource group now only contained 3 items: the restored database, the database server and the migration service I created when performing the data migration in milestone 3.
 
@@ -409,27 +397,11 @@ _Image showing the path to create a new user from the Microsoft Entra ID overvie
 
 This opened the Create new user wizard, where I chose an identifiable UPN, password and display name.
 
-<img width="502" alt="m7-2 create user 2" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/a4e7a83e-70eb-4498-8eb4-27262bfdedc6">
-
-_Image showing the creation of the Microsoft Entra user who will become the database admin_
-
 With the user created, I needed to assign them administrative privileges to the database. I did  this by navigating to the server in the Azure portal and under 'Settings,' opened 'Microsoft Entra ID':
-
-<img width="636" alt="m7-1 Settings" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/bb229460-e918-45de-b983-4d8fd9d36f2b">
-
-_Image showing the Microsoft Entra ID page of Azure SQL server settings_
 
 From there, I clicked 'Set admin' then searched and selected the new user:
 
-<img width="616" alt="m7-2 create user 3" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/76ba34fe-37cd-4795-9140-d01b05d592a6">
-
-_Image showing the new user being selected as the Microsoft Entra admin of the production database server_
-
 I was then redirected to the Microsoft Entra ID settings of the server, where I clicked 'Save' to save the changes:
-
-<img width="430" alt="m7-2 create user 4" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/b3d2269b-d7ea-4085-a7c2-6987fa793e10">
-
-_Image showing the changes being saved to apply the new user as the administrator of the database_
 
 To test whether setting the user as the admin worked, I opened ADS on the production VM. I right-clicked the connection to the production database and then edited the connection:
 
@@ -462,15 +434,7 @@ ALTER ROLE db_datareader ADD MEMBER [DB_Reader@yourdomain.com];
 
 I replaced `DB_Reader@yourdomain.com` with the UPN of the the DB Reader user. The query works by first creating a user account for the database and then assigns the db_datareader role to it:
 
-<img width="770" alt="m7-2 create db_reader query" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/fe68f0f2-6095-406f-b809-892d82ef3087">
-
-_Image showing the executed query to create the DB Reader user and assign the db_datareader role to it_
-
 I tested this worked by re-connecting to the server using the credentials of the DB reader user:
-
-<img width="621" alt="m7-2 connecting as reader" src="https://github.com/LHMak/azure-database-migration873/assets/147920042/250ac7e7-bada-4ddc-a189-ae4a506f6d7c">
-
-_Image showing a connection being made to the production database using the DB Reader user_
 
 When connected, I checked the user could read data from the database by executing a query to select the entire `Person.Address` table:
 
